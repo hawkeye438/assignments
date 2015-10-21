@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 public class AlgorithmCalculator {
 
@@ -10,21 +10,27 @@ public class AlgorithmCalculator {
 		Stack operators = new Stack();
 		Stack numbers = new Stack();
 		
-		String regexNumber = "[0-9]";
-		int i = 0;
-		char[] characters = read.next().toCharArray();
-		String charString = String.valueOf(characters[i]);
+		Pattern p = Pattern.compile("(\\d+\\.\\d+)|(\\d+)|([+-/*///^])|([/(/)])|(>=)");
+		Matcher m = p.matcher(read.next());
 		
-		while(read.hasNext()) {
-			charString = String.valueOf(characters[i]);
-			if(Pattern.matches(regexNumber, charString)) {
-				System.out.println(charString);
-				numbers.push(charString);
+		String regexNumber = "[0-9]+";
+		int i = 0;
+		String[] elements = read.next().split("[^0-9!-*/+[>?=][<?=][=?=][!=]]*");
+		//String charString = elementString;
+		
+		//while(m.find())
+		//      System.out.println(m.group());
+		
+		while(m.find() && read.hasNextLine()) {
+			String elementString = m.group();
+			if(Pattern.matches(regexNumber, elementString)) {
+				System.out.print(elementString + " ");
+				numbers.push(elementString);
 				i++;
 			}
 			else {
-				System.out.println(charString);
-				operators.push(charString);
+				System.out.print(elementString + " ");
+				operators.push(elementString);
 				i++;
 			}
 		}
